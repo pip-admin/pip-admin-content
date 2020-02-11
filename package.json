@@ -1,0 +1,30 @@
+{
+    "name": "pip-admin-content",
+    "version": "2.0.0",
+    "author": "Digital Living Software Corp. <www.digitallivingsoftware.com>",
+    "description": "Content for admin",
+    "contributors": [
+        {
+            "name": "Sergey Seroukhov",
+            "email": "seroukhov@gmail.com"
+        },
+        {
+            "name": "Katerina Negrienko",
+            "email": "katya@negrienko.com"
+        },
+        {
+            "name": "Anastas Fonotov",
+            "email": "anastasf@gmail.com"
+        }
+    ],
+    "keywords": [
+        "pip",
+        "admin",
+        "content"
+    ],
+    "noAnalyze": true,
+    "license": "MIT",
+    "private": false,
+    "dependencies": {},
+    "devDependencies": {}
+}

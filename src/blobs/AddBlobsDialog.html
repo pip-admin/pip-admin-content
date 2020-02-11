@@ -1,0 +1,24 @@
+<!--
+@blob Confirmation dialog template
+@copyright Digital Living Software Corp. 2014-2016
+-->
+<md-dialog class="pip-dialog layout-column bb-add-blob" width="400" md-theme="{{vm.theme}}">
+	<div class="pip-body p24-flex  pip-scroll" ng-if="!vm.globalProgress()">
+
+		<h3 class="tm0" ng-if="!vm.edit">New blob</h3>
+		<h3 class="tm0" ng-if="vm.edit">Edit blob</h3>
+	
+		<div ng-show=" !vm.edit">
+			<pip-file-select pip-change="vm.setBlob" pip-local-file="vm.localBlob"></pip-file-select>
+		</div>
+
+	</div>
+	<div class="pip-footer" ng-if="!vm.globalProgress()">
+		<div>
+			<md-button class="md-accent" ng-click="vm.onCancel()">Cancel</md-button>
+			<md-button class="md-accent" ng-click="vm.onOk()"> Upload</md-button>
+		</div>
+	</div>
+	<pip-file-progress ng-if="vm.globalProgress()" pip-cancel="vm.cancel" pip-retry="vm.retry" pip-name="vm.localBlob.name">
+	</pip-file-progress>
+</md-dialog>

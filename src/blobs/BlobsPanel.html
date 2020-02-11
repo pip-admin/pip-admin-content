@@ -1,0 +1,28 @@
+<pip-document>
+	<md-button class="md-fab md-accent md-fab-bottom-right" style="z-index: 55" ng-if="$ctrl.state != 'progress'" ng-disabled="$ctrl.transaction.busy()"
+		aria-label="add" ng-click="$ctrl.addBlob()">
+		<md-icon md-svg-icon="icons:plus"></md-icon>
+	</md-button>
+	<div class="pip-body p0">
+
+		<md-list class=" pip-ref-list tp0" ng-if=" $ctrl.state == 'data'">
+			<md-list-item class="pip-ref-list-item divider-bottom" md-ink-ripple ng-repeat="blob in $ctrl.blobs">
+				<div class="pip-pic flex-fixed lm16 layout-row layout-align-center-center">
+
+				</div>
+				<div class="pip-content flex">
+					<div class="text-body2 text-overflow">
+						{{blob.name}}
+						<span ng-if="blob.size"> • </span> {{blob.size}}
+					</div>
+					<p class="pip-subtitle pip-blob-message">{{blob.content_type}}</p>
+				</div>
+				<div class="pip-pic rm0">
+					<md-button class="md-icon-button flex-fixed" ng-if="blob.Error" ng-click="$ctrl.onErrorDetails(blob)" aria-label="error">
+						<md-icon md-svg-icon="icons:search"></md-icon>
+					</md-button>
+				</div>
+			</md-list-item>
+		</md-list>
+	</div>
+</pip-document>

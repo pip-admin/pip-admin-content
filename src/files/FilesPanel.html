@@ -1,0 +1,217 @@
+<div class="pip-main-menu pip-files" ng-class="{'pip-single-content': $ctrl.details}" 
+     ng-if="$ctrl.pipMedia('gt-sm')"> <!-- pip-single-content -->
+    <div class="pip-menu">
+        <div class="pip-list-container pip-scroll">
+            <md-list class="pip-simple-list tp0"
+                     pip-selected="$ctrl.selectIndex"
+                     pip-select="$ctrl.selectItem($event.index)">
+                <md-list-item class="pip-simple-list-item pip-selectable {{ $ctrl.selectIndex == $index ? 'selected' : '' }}" 
+                              md-ink-ripple ng-repeat="section in $ctrl.filesSections">
+                    <p class="pip-title text-body2">{{ section || 'Undefined' }}</p>
+                </md-list-item>
+            </md-list>
+        </div>
+    </div>
+
+    <div class="pip-content-container">
+        <div class="layout-column">
+             
+            <pip-document class="pip-scroll">
+				<div class="pip-filter-row layout-row layout-align-start-center pip-search-panel rp0 lp0 pip-filter-search-row flex">
+                    <pip-search-row pip-search="$ctrl.search"
+                        pip-on-search="$ctrl.onSearch()"
+                        xxxng-disabled="$ctrl.transaction.busy()">
+                    </pip-search-row> 
+                </div>
+            <!--
+            <pip-document>-->
+                <div class="pip-body p0"> 
+                
+                        <div class="pip-menu" style="width: 100% !important;" ng-if="$ctrl.state == 'data'">
+                            <div class="pip-list-container pip-scroll">
+                                <md-list class=" pip-ref-list tp0">
+                                    <md-list-item class="pip-ref-list-item divider-bottom" md-ink-ripple 
+                                                ng-repeat="file in $ctrl.files[$ctrl.selectIndex].Items" ng-click="$mdOpenMenu()">
+                                                <div class="pip-pic tm0 rm0" ng-if="file.content_type == 'json' ||
+                                                        file.content_type == 'jpeg' ||
+                                                        file.content_type == 'xls'  ||
+                                                        file.content_type == 'xml'  ||
+                                                        file.content_type == 'pdf'  ||                                                        
+                                                        file.content_type == 'doc'">
+                                                    <md-icon md-svg-icon="bootbarn-icons:file-format-{{file.content_type}}"></md-icon>
+                                                </div>
+                                                <div class="pip-pic tm0 rm0" ng-if="file.content_type != 'json' &&
+                                                                            file.content_type != 'jpeg' &&
+                                                                            file.content_type != 'xls'  &&
+                                                                            file.content_type != 'pdf'  &&
+                                                                            file.content_type != 'xml'  &&
+                                                                            file.content_type != 'doc'">
+                                                    <md-icon md-svg-icon="bootbarn-icons:file-format-custom"></md-icon>
+                                                </div>
+                                        <div class="pip-content flex">
+                                            <div class="text-body2 text-overflow">
+                                                {{file.name}}
+                                            </div>
+                                            <p class="pip-subtitle">{{file.description}}</p>
+                                        </div>
+
+                                        <div class="pip-pic rm0 tm0">
+                                            <md-menu>
+                                                <md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="xxx">
+                                                    <md-icon md-menu-origin md-svg-icon="icons:vdots"></md-icon>
+                                                </md-button>
+                                                <md-menu-content width="3">
+                                                    <md-menu-item>
+                                                        <md-button ng-click="$ctrl.download(file)" aria-label="xxx">
+                                                            Download
+                                                        </md-button>
+                                                    </md-menu-item>
+                                                    <md-menu-item>
+                                                        <md-button ng-click="$ctrl.updateFile(file)" aria-label="xxx">
+                                                            Update
+                                                        </md-button>
+                                                    </md-menu-item>
+                                                    <md-menu-item ng-click="$ctrl.openDeleteDialog(file, $ctrl.selectIndex)">
+                                                        <md-button aria-label="xxx">
+                                                            Delete
+                                                        </md-button>
+                                                    </md-menu-item>
+                                                </md-menu-content>
+                                            </md-menu>
+                                        </div>
+                                    </md-list-item>
+                                </md-list>
+                            </div>
+                        </div>
+                    </div>                    
+                   <div class="layout-column layout-align-center-center flex pip-empty pip-scroll" 
+                        ng-if="$ctrl.state == 'progress' || $ctrl.state == 'empty'">
+                        <div class="pip-empty" ng-if="$ctrl.state == 'empty'">
+
+                            <img src="images/EmptyState.svg" class="pip-pic">
+                            <div class="pip-text">
+                                There are no events right now… <br>
+                                Try again later or change filter options
+                            </div>
+                        </div>
+                        <div class="pip-empty" ng-if="$ctrl.state == 'progress'">
+
+                            <img src="images/LoadingState.svg" class="pip-pic">
+                            <div class="pip-text">
+                                Loading Files
+                                <md-progress-linear md-mode="indeterminate"  class="tm24"></md-progress-linear>
+                            </div>
+                        </div>
+                    </div> 
+
+            </pip-document>
+                <!--</div>
+            </pip-document>-->
+        </div>
+    </div>
+
+</div>
+
+<md-button class="md-fab md-accent md-fab-bottom-right"
+            style="z-index: 55"
+            ng-if="$ctrl.state != 'progress'"
+           ng-disabled="$ctrl.transaction.busy()"
+           aria-label="add" ng-click="$ctrl.addFile()">
+    <md-icon md-svg-icon="icons:plus"></md-icon>
+</md-button>
+
+
+<pip-dropdown pip-actions="$ctrl.filesSections" pip-active-index="$ctrl.selectIndex" 
+              pip-change="$ctrl.getSelectDropdown()" 
+              ng-if="($ctrl.pipMedia('xs') || $ctrl.pipMedia('sm')) && $ctrl.state == 'data'"></pip-dropdown>
+<div class="pip-main-menu pip-files" 
+     ng-if="($ctrl.pipMedia('xs') || $ctrl.pipMedia('sm')) && $ctrl.state == 'data'"> 
+
+
+<div class="pip-filter-row layout-row layout-align-start-center pip-search-panel rp0 lp0 pip-filter-search-row flex">
+                    <pip-search-row pip-search="$ctrl.search"
+                        pip-on-search="$ctrl.onSearch()"
+                        xxxng-disabled="$ctrl.transaction.busy()">
+                    </pip-search-row> 
+                </div>
+            <pip-simple class="pip-scroll">
+
+    <div class="pip-menu" style="width: 100% !important;">
+        <div class="pip-list-container pip-scroll">
+            <md-list class=" pip-ref-list tp0">
+                <md-list-item class="pip-ref-list-item divider-bottom" md-ink-ripple 
+                            ng-repeat="file in $ctrl.files[$ctrl.selectIndex].Items">
+                            <div class="pip-pic tm0 rm0" ng-if="file.content_type == 'json' ||
+                                                        file.content_type == 'jpeg' ||
+                                                        file.content_type == 'pdf' ||
+                                                        file.content_type == 'xls'  ||
+                                                        file.content_type == 'xml'  ||
+                                                        file.content_type == 'doc'">
+                                <md-icon md-svg-icon="bootbarn-icons:file-format-{{file.content_type}}"></md-icon>
+                            </div>
+                            <div class="pip-pic rm0" ng-if="file.content_type != 'json' &&
+                                                        file.content_type != 'jpeg' &&
+                                                        file.content_type != 'xls'  &&
+                                                        file.content_type != 'xml'  &&
+                                                        file.content_type != 'pdf' &&
+                                                        file.content_type != 'doc'">
+                                <md-icon md-svg-icon="bootbarn-icons:file-format-custom"></md-icon>
+                            </div>
+                    <div class="pip-content flex">
+                        <div class="text-body2 text-overflow">
+                            {{file.name}}
+                        </div>
+                        <p class="pip-subtitle">{{file.Description}}</p>
+                    </div>
+
+                    <div class="pip-pic rm0">
+                        <md-menu>
+                            <md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="xxx">
+                                <md-icon md-menu-origin md-svg-icon="icons:vdots"></md-icon>
+                            </md-button>
+                            <md-menu-content width="3">
+                                <md-menu-item>
+                                    <md-button ng-click="$ctrl.download(file)" aria-label="xxx">
+                                        Download
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button ng-click="$ctrl.updateFile(file)" aria-label="xxx">
+                                        Update
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item ng-click="$ctrl.openDeleteDialog(file, $ctrl.selectIndex)">
+                                    <md-button aria-label="xxx">
+                                        Delete
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </div>
+    </div>
+</div>
+
+
+<div class="layout-column layout-align-center-center flex pip-empty pip-scroll" 
+     ng-if="($ctrl.state == 'progress' || $ctrl.state == 'empty') && !$ctrl.pipMedia('gt-sm')">
+     <div class="pip-empty" ng-if="$ctrl.state == 'empty'">
+        <img src="images/EmptyState.svg" class="pip-pic">
+        <div class="pip-text">
+            There are no events right now… <br>
+            Try again later or change filter options
+        </div>
+    </div>
+    <div class="pip-empty" ng-if="$ctrl.state == 'progress'">
+        <img src="images/LoadingState.svg" class="pip-pic">
+        <div class="pip-text"> 
+            Loading files
+            <md-progress-linear md-mode="indeterminate"  class="tm24"></md-progress-linear>
+        </div>
+    </div>
+</div> 
+
+<md-progress-linear md-mode="indeterminate" style="position: absolute; z-index: 100" 
+                    ng-show="$ctrl.transaction.busy() && $ctrl.state != 'progress'"></md-progress-linear>

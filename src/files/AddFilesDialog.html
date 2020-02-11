@@ -1,0 +1,40 @@
+<!--
+@file Confirmation dialog template
+@copyright Digital Living Software Corp. 2014-2016
+-->
+<md-dialog class="pip-dialog layout-column bb-add-file" width="400" md-theme="{{vm.theme}}">
+	<div class="pip-body p24-flex  pip-scroll" ng-if="!vm.globalProgress()">
+
+		<h3 class="tm0" ng-if="!vm.edit">New file</h3>
+		<h3 class="tm0" ng-if="vm.edit">Edit file</h3>
+		<md-autocomplete flex required class="bm0 " md-input-name="autocompleteField" md-search-text="vm.file.Collection" md-items="item in vm.filterFilesCollections(vm.file.Collection)"
+			md-no-cache="true" md-require-match="false" md-floating-label="Collection">
+			<md-item-template>
+				<span>{{::item}}</span>
+			</md-item-template>
+		</md-autocomplete>
+		
+		<md-input-container class="md-block flex bm0 tm0">
+			<label>Description</label>
+			<input ng-model="vm.file.description">
+		</md-input-container>
+		<!--
+
+		
+-->
+		<div ng-show=" !vm.edit">
+			<pip-file-select pip-change="vm.setFile" pip-local-file="vm.localFile"></pip-file-select>
+		</div>
+
+	</div>
+	<div class="pip-footer" ng-if="!vm.globalProgress()">
+		<div>
+			<md-button class="md-accent" ng-click="vm.onCancel()">Cancel</md-button>
+			<md-button class="md-accent" ng-click="vm.onOk()">
+				Upload
+			</md-button>
+		</div>
+	</div>
+	<pip-file-progress ng-if="vm.globalProgress()" pip-cancel="vm.cancel" pip-retry="vm.retry" pip-name="vm.localFile.name">
+	</pip-file-progress>
+</md-dialog>
